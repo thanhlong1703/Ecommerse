@@ -1,0 +1,14 @@
+@import '@styles/mixin.module.scss';
+@import '@styles/variable.module.scss';
+
+.containerCard {
+  @include flex_box_custom(center, center);
+
+  padding: 15px;
+}
+.content {
+  @include flex_box_custom(center, flex-start, 20px);
+
+  flex-direction: column;
+  color: $white;
+}

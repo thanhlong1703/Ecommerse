@@ -1,0 +1,23 @@
+@import '@styles/mixin.module.scss';
+
+.container {
+  @include flex_box_custom(center, center, 0);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.containerHeader {
+  @include flex_box_custom(space-between, center, 20px);
+  height: 83px;
+  width: 1250px;
+}
+.boxContainer {
+  @include flex_box_custom(center, center, 20px);
+}
+.boxIcon {
+  @include flex_box_custom(center, center, 8px);
+}
+.boxMenu {
+  @include flex_box_custom(center, center, 30px);
+}

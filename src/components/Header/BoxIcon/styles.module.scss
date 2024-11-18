@@ -1,0 +1,6 @@
+@import '@styles/mixin.module.scss';
+@import '@styles/variable.module.scss';
+
+.boxIcon {
+  @include button(26px, 26px, 50%, $primary_color);
+}

@@ -1,0 +1,24 @@
+@import '@styles/variable.module.scss';
+
+@mixin radius_common($radius: 10px) {
+  border-radius: $radius;
+}
+
+@mixin flex_box_custom($x, $y, $gap: 10px) {
+  display: flex;
+  justify-content: $x;
+  align-items: $y;
+  gap: $gap;
+}
+
+@mixin button($w, $h, $radius, $bgcolor: $white, $color: $primary_color) {
+  @include radius_common($radius);
+  @include flex_box_custom(center, center, 0px);
+
+  width: $w;
+  height: $h;
+  background-color: $bgcolor;
+  color: $color;
+  outline: none;
+  border: 1px solid #e1e1e1;
+}
