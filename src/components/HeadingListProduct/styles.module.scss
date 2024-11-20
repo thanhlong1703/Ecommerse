@@ -1,0 +1,26 @@
+@import '@styles/mixin.module.scss';
+
+.container {
+  @include flex_box_custom(center, center);
+}
+
+.countDownBanner {
+  @include flex_box_custom(center, center, 20px);
+
+  flex-direction: column;
+  width: 100%;
+  min-height: 410px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url(https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/photo-of-man-wearing-white-hoodie-5474310.jpeg);
+}
+.countDown {
+  @include flex_box_custom(center, center, 20px);
+}
+.titleCountDownBanner {
+  font-size: 28px;
+}
+.item {
+  @include flex_box_custom(center, center);
+  width: 100%;
+}

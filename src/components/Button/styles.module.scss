@@ -4,14 +4,12 @@
   @include button(176px, 42px, 3px, #333, #fff);
 
   font-size: 14px;
-  margin-top: 20px;
   font-weight: 300;
   cursor: pointer;
-
-  &:hover {
-    background-color: transparent;
-    color: #333;
-    border: 1px solid #333;
-    transition: background-color 300ms;
-  }
+}
+.button:hover {
+  background-color: transparent;
+  color: #333;
+  border: 1px solid #333;
+  transition: background-color 300ms;
 }

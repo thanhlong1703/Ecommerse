@@ -1,0 +1,61 @@
+@import '@styles/mixin.module.scss';
+
+.container {
+  width: 295px;
+  height: 410px;
+  position: relative;
+
+  &:hover .focusImage {
+    opacity: 1;
+    transition: opacity 300ms;
+  }
+
+  &:hover .functionFocus {
+    opacity: 1;
+    transition: opacity 300ms;
+  }
+}
+
+.focusImage {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.infoProduct {
+  @include flex_box_custom(center, flex-start);
+
+  flex-direction: column;
+}
+
+.infoName {
+  font-size: 16px;
+}
+
+.infoPrice {
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.functionFocus {
+  position: absolute;
+  opacity: 0;
+  right: 10px;
+  bottom: 100px;
+}
+
+.fncProduct {
+  @include flex_box_custom(center, center);
+
+  background-color: #333;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: gray;
+  }
+}
