@@ -11,14 +11,12 @@
   gap: $gap;
 }
 
-@mixin button($w, $h, $radius, $bgcolor: $white, $color: $primary_color) {
+@mixin button($w, $h, $radius) {
   @include radius_common($radius);
   @include flex_box_custom(center, center, 0px);
 
   width: $w;
   height: $h;
-  background-color: $bgcolor;
-  color: $color;
   outline: none;
-  border: 1px solid #e1e1e1;
+  border: 1px solid $primary_color;
 }

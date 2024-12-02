@@ -1,0 +1,25 @@
+@import '@styles/mixin.module.scss';
+
+.container {
+  @include flex_box_custom(space-between, center, 70px);
+
+  margin-top: 100px;
+}
+.boxImage {
+  @include flex_box_custom(center, center);
+
+  width: 100%;
+}
+.content {
+  @include flex_box_custom(center, center, 20px);
+  width: 1200px;
+  flex-direction: column;
+}
+.title {
+  font-size: 35px;
+  font-weight: 300;
+}
+.des {
+  text-align: center;
+  line-height: 150%;
+}

@@ -1,15 +1,32 @@
 @import '@styles/mixin.module.scss';
+@import '@styles/variable.module.scss';
 
 .button {
-  @include button(176px, 42px, 3px, #333, #fff);
+  @include button(176px, 42px, 3px);
 
   font-size: 14px;
   font-weight: 300;
   cursor: pointer;
 }
-.button:hover {
+
+.primaryBtn {
+  background-color: $primary_color;
+  color: $white;
+}
+.primaryBtn:hover {
   background-color: transparent;
   color: #333;
   border: 1px solid #333;
+  transition: background-color 300ms;
+}
+.secondaryBtn {
+  background-color: $white;
+  color: $primary_color;
+}
+
+.secondaryBtn:hover {
+  background-color: $primary_color;
+  color: $white;
+  border: 1px solid $white;
   transition: background-color 300ms;
 }

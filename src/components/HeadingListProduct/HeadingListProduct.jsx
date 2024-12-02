@@ -4,7 +4,7 @@ import styles from './styles.module.scss';
 import ProductCard from '@components/ProductCard/ProductCard';
 import Button from '@components/Button/Button';
 
-function HeadingListProduct() {
+function HeadingListProduct({ data }) {
   const targetDate = '2024-12-31T00:00:00';
   const { container, countDownBanner, countDown, titleCountDownBanner, item } =
     styles;
@@ -22,26 +22,15 @@ function HeadingListProduct() {
           <Button content={'Buy now'} />
         </div>
         <div className={item}>
-          <ProductCard
-            src={
-              'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg'
-            }
-            srcFocus={
-              'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.2-min.jpg'
-            }
-            nameProduct={'10K Yellow Gold'}
-            price={'$99.99'}
-          />
-          <ProductCard
-            src={
-              'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-2.1-min.jpg'
-            }
-            srcFocus={
-              'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-2.4-min.jpg'
-            }
-            nameProduct={'Consectetur nibh at'}
-            price={'$119.99'}
-          />
+          {data.map((item) => (
+            <ProductCard
+              key={item.id}
+              src={item.images[0]}
+              srcFocus={item.images[1]}
+              nameProduct={item.name}
+              price={item.price}
+            />
+          ))}
         </div>
       </div>
     </MainLayout>

@@ -25,7 +25,7 @@ function ProductCard({ src, srcFocus, nameProduct, price }) {
       />
       <div className={infoProduct}>
         <div className={infoName}>{nameProduct}</div>
-        <div className={infoPrice}>{price}</div>
+        <div className={infoPrice}>${price}</div>
       </div>
       <div className={functionFocus}>
         <div className={fncProduct}>
