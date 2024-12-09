@@ -2,7 +2,7 @@
 @import '@styles/variable.module.scss';
 
 .button {
-  @include button(176px, 42px, 3px);
+  @include button(100%, 42px, 3px);
 
   font-size: 14px;
   font-weight: 300;

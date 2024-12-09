@@ -1,0 +1,24 @@
+.container {
+  margin-bottom: 20px;
+  .labelInput {
+    font-size: 14px;
+    color: #222;
+    margin-bottom: 5px;
+  }
+  .boxInput {
+    position: relative;
+    width: 100%;
+    input {
+      width: 100%;
+      border: 1px solid #e1e1e1;
+      padding: 10px 0 10px 10px;
+      outline: none;
+    }
+    .boxIcon {
+      position: absolute;
+      right: 0px;
+      top: 12px;
+      cursor: pointer;
+    }
+  }
+}

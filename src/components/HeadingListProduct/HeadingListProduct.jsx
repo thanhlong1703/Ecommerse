@@ -19,7 +19,13 @@ function HeadingListProduct({ data }) {
           <div className={titleCountDownBanner}>
             The classics make a comeback
           </div>
-          <Button content={'Buy now'} />
+          <div
+            style={{
+              width: '176px'
+            }}
+          >
+            <Button content={'Buy now'} />
+          </div>
         </div>
         <div className={item}>
           {data.map((item) => (

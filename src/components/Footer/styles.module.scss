@@ -1,0 +1,28 @@
+@import '@styles/variable.module.scss';
+@import '@styles/mixin.module.scss';
+
+.container {
+  @include flex_box_custom(center, center, 50px);
+
+  flex-direction: column;
+  background-color: #363636;
+  color: $white;
+  margin-top: 80px;
+  height: 400px;
+}
+
+.menu {
+  @include flex_box_custom(center, center, 45px);
+}
+.menuItem {
+  cursor: pointer;
+  font-size: 15px;
+  &:hover {
+    opacity: 0.6;
+  }
+}
+
+.payment {
+  @include flex_box_custom(center, center, 20px);
+  flex-direction: column;
+}

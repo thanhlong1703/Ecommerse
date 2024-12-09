@@ -3,11 +3,34 @@ import Menu from './Menu/Menu';
 import { dataBoxIcon, dataMenu } from './constants';
 import styles from './styles.module.scss';
 import Logo from '@icons/img/Logo-retina.png';
-
+import useScrollHandling from '@/hooks/useScrollHanding';
+import { useContext, useEffect, useState } from 'react';
+import classNames from 'classnames';
+import { SideBarContext } from '@/contexts/SideBarProvider';
 function Header() {
-  const { container, containerHeader, boxContainer, boxIcon, boxMenu } = styles;
+  const {
+    container,
+    containerHeader,
+    boxContainer,
+    boxIcon,
+    boxMenu,
+    topHeader,
+    fixedHeader
+  } = styles;
+  const { scrollPosition } = useScrollHandling();
+  const [fixed, setfixed] = useState(false);
+  const { isOpen, setIsOpen } = useContext(SideBarContext);
+
+  useEffect(() => {
+    setfixed(scrollPosition > 80);
+  }, [scrollPosition]);
+
   return (
-    <div className={container}>
+    <div
+      className={classNames(container, topHeader, {
+        [fixedHeader]: fixed
+      })}
+    >
       <div className={containerHeader}>
         <div className={boxContainer}>
           <div className={boxIcon}>
@@ -17,7 +40,13 @@ function Header() {
           </div>
           <div className={boxMenu}>
             {dataMenu.slice(0, 3).map((item) => {
-              return <Menu content={item.content} href={item.href} />;
+              return (
+                <Menu
+                  content={item.content}
+                  href={item.href}
+                  setIsOpen={setIsOpen}
+                />
+              );
             })}
           </div>
         </div>
@@ -27,7 +56,13 @@ function Header() {
         <div className={boxContainer}>
           <div className={boxMenu}>
             {dataMenu.slice(3).map((item) => {
-              return <Menu content={item.content} href={item.href} />;
+              return (
+                <Menu
+                  content={item.content}
+                  href={item.href}
+                  setIsOpen={setIsOpen}
+                />
+              );
             })}
           </div>
           <div className={boxIcon}>

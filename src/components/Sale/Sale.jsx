@@ -1,7 +1,7 @@
 import Button from '@components/Button/Button';
 import styles from './styles.module.scss';
-import { useEffect } from 'react';
-import useTranslateXImage from '@components/Sale/translateXImage';
+import useTranslateXImage from '@/hooks/useTranslateXImage';
+
 function Sale() {
   const { container, boxImage, content, title, des } = styles;
   const { translateXPosition } = useTranslateXImage();
@@ -27,7 +27,13 @@ function Sale() {
         <div className={des}>
           Libero sed faucibus facilisis fermentum. Est nibh sed massa sodales.
         </div>
-        <Button content={'Read more'} isPrimary={false} />
+        <div
+          style={{
+            width: '176px'
+          }}
+        >
+          <Button content={'Read more'} isPrimary={false} />
+        </div>
       </div>
       <div
         className={boxImage}
