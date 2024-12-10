@@ -7,19 +7,29 @@ import useScrollHandling from '@/hooks/useScrollHanding';
 import { useContext, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { SideBarContext } from '@/contexts/SideBarProvider';
+import { TfiReload } from 'react-icons/tfi';
+import { TfiHeart } from 'react-icons/tfi';
+import { TfiShoppingCart } from 'react-icons/tfi';
 function Header() {
   const {
     container,
     containerHeader,
     boxContainer,
+    boxIconSNS,
     boxIcon,
+    boxIconItem,
     boxMenu,
     topHeader,
     fixedHeader
   } = styles;
   const { scrollPosition } = useScrollHandling();
   const [fixed, setfixed] = useState(false);
-  const { isOpen, setIsOpen } = useContext(SideBarContext);
+  const { isOpen, setIsOpen, type, setType } = useContext(SideBarContext);
+
+  const handleOpenSideBar = (typeSideBar) => {
+    setIsOpen(true);
+    setType(typeSideBar);
+  };
 
   useEffect(() => {
     setfixed(scrollPosition > 80);
@@ -33,20 +43,14 @@ function Header() {
     >
       <div className={containerHeader}>
         <div className={boxContainer}>
-          <div className={boxIcon}>
+          <div className={boxIconSNS}>
             {dataBoxIcon.slice(0, 3).map((item) => {
               return <BoxIcon type={item.type} href={item.href} />;
             })}
           </div>
           <div className={boxMenu}>
             {dataMenu.slice(0, 3).map((item) => {
-              return (
-                <Menu
-                  content={item.content}
-                  href={item.href}
-                  setIsOpen={setIsOpen}
-                />
-              );
+              return <Menu content={item.content} href={item.href} />;
             })}
           </div>
         </div>
@@ -56,19 +60,25 @@ function Header() {
         <div className={boxContainer}>
           <div className={boxMenu}>
             {dataMenu.slice(3).map((item) => {
-              return (
-                <Menu
-                  content={item.content}
-                  href={item.href}
-                  setIsOpen={setIsOpen}
-                />
-              );
+              return <Menu content={item.content} href={item.href} />;
             })}
           </div>
           <div className={boxIcon}>
-            {dataBoxIcon.slice(3).map((item) => {
-              return <BoxIcon type={item.type} href={item.href} />;
-            })}
+            <TfiReload
+              style={{ fontSize: 20 }}
+              className={boxIconItem}
+              onClick={() => handleOpenSideBar('compare')}
+            />
+            <TfiHeart
+              style={{ fontSize: 20 }}
+              className={boxIconItem}
+              onClick={() => handleOpenSideBar('wishlist')}
+            />
+            <TfiShoppingCart
+              style={{ fontSize: 20 }}
+              className={boxIconItem}
+              onClick={() => handleOpenSideBar('cart')}
+            />
           </div>
         </div>
       </div>

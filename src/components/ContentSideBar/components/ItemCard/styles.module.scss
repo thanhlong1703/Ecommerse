@@ -1,0 +1,45 @@
+@import '@styles/mixin.module.scss';
+
+.container {
+  @include flex_box_custom(flex-start, flex-start, 25px);
+
+  margin-top: 20px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  .boxContent {
+    @include flex_box_custom(center, flex-start, 5px);
+
+    width: 100%;
+    flex-direction: column;
+
+    .title {
+      font-size: 16px;
+      color: #333;
+    }
+    .size {
+      color: #c1c1c1;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+    .price {
+      font-size: 14px;
+      color: #222;
+    }
+  }
+  &:hover {
+    background-color: #f7f7f7;
+    .iconClose {
+      transform: translateX(0);
+    }
+  }
+  .iconClose {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    transform: translateX(30px);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
+}

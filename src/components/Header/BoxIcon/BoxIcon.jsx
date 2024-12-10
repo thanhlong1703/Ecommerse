@@ -17,12 +17,6 @@ function BoxIcon({ type, href }) {
         return insIcon;
       case 'youtube':
         return ytbIcon;
-      case 'reload':
-        return reloadIcon;
-      case 'cart':
-        return cartIcon;
-      case 'whishlist':
-        return heartIcon;
     }
   };
   return (

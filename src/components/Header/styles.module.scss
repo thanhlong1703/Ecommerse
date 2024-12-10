@@ -30,8 +30,17 @@
 .boxContainer {
   @include flex_box_custom(center, center, 20px);
 }
-.boxIcon {
+.boxIconSNS {
   @include flex_box_custom(center, center, 8px);
+}
+.boxIcon {
+  @include flex_box_custom(center, center, 20px);
+
+  .boxIconItem {
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }
 .boxMenu {
   @include flex_box_custom(center, center, 30px);
