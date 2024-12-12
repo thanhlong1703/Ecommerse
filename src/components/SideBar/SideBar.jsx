@@ -30,7 +30,7 @@ function SideBar() {
         return <Login />;
     }
   };
-  console.log('type', type);
+
   return (
     <div className={container}>
       <div

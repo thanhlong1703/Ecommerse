@@ -1,10 +1,19 @@
 @import '@styles/variable.module.scss';
 
 .menu {
+  position: relative;
   padding-top: 8px;
   font-size: 15px;
   color: $primary_color;
   cursor: pointer;
+
+  .subMenu {
+    position: absolute;
+    background-color: #fff;
+    width: 100%;
+    padding: 10px;
+    top: 40px;
+  }
 }
 
 .menu::after {

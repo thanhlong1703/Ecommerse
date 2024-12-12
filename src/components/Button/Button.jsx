@@ -1,16 +1,18 @@
 import styles from './styles.module.scss';
 import classNames from 'classnames';
-function Button({ content, isPrimary = true }) {
+
+function Button({ content, isPrimary = true, ...props }) {
   const { button, primaryBtn, secondaryBtn } = styles;
   return (
-    <div
+    <button
       className={classNames(button, {
         [primaryBtn]: isPrimary,
         [secondaryBtn]: !isPrimary
       })}
+      {...props}
     >
       {content}
-    </div>
+    </button>
   );
 }
 
