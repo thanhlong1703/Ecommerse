@@ -35,6 +35,7 @@ function HeadingListProduct({ data }) {
               srcFocus={item.images[1]}
               nameProduct={item.name}
               price={item.price}
+              details={item}
             />
           ))}
         </div>

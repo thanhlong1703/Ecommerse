@@ -1,8 +1,14 @@
-import { axiosClient } from "@/apis/axiosClient"
+import { axiosClient } from '@/apis/axiosClient';
 
-const getProduct = async () =>{
-    const res = await axiosClient.get('/product')
+const getProduct = async (query) => {
+  const { sortType, page, limit } = query;
 
-    return res.data;
-}
-export { getProduct}
+  const queryLimit = limit === 'all' ? '' : `limit=${limit}`;
+  const res = await axiosClient.get(
+    `/product?sortType=${sortType}&page=${page}&${queryLimit}`
+  );
+
+  return res.data;
+};
+export { getProduct };
+ 

@@ -4,22 +4,32 @@ import styles from './styles.module.scss';
 import AdvanceHeading from '@components/AdvanceHeading/AdvanceHeading';
 import Info from '@components/Info/Info';
 import HeadingListProduct from '@components/HeadingListProduct/HeadingListProduct';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { getProduct } from '@/apis/service';
 import PopularProduct from '@components/PopularProduct/PopularProduct';
 import Sale from '@components/Sale/Sale';
 import Footer from '@components/Footer/Footer';
+import { OurShopContext } from '@/contexts/OurShopProvider';
 
 function HomePage() {
   const { container } = styles;
 
   const [listProduct, setListProduct] = useState([]);
-
+  const { setIsShowGrid } = useContext(OurShopContext);
   useEffect(() => {
-    getProduct().then((res) => {
+    const query = {
+      sortType: 0,
+      page: 1,
+      limit: 10
+    };
+    getProduct(query).then((res) => {
       setListProduct(res.contents);
     });
   }, []);
+  useEffect(() => {
+    setIsShowGrid(true);
+  }, []);
+
   return (
     <div>
       <div className={container}>
