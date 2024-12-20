@@ -79,12 +79,21 @@
     }
   }
 }
-
+.isActiveSize {
+  border: 1px solid #000 !important ;
+}
+.btnClear {
+  font-size: 12px;
+  text-align: center;
+  font-weight: 300;
+  margin-top: 5px;
+  height: 15px;
+}
 .textCenter {
-  @include flex_box_custom(center, center, 10px);
+  @include flex_box_custom(center, center, 5px);
 }
 .boxBtn {
   @include flex_box_custom(center, center);
-  margin-top: 10px;
+  margin-top: 5px;
   width: 140px;
 }

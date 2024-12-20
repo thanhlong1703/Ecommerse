@@ -9,13 +9,11 @@ import { getProduct } from '@/apis/service';
 import PopularProduct from '@components/PopularProduct/PopularProduct';
 import Sale from '@components/Sale/Sale';
 import Footer from '@components/Footer/Footer';
-import { OurShopContext } from '@/contexts/OurShopProvider';
 
 function HomePage() {
   const { container } = styles;
-
   const [listProduct, setListProduct] = useState([]);
-  const { setIsShowGrid } = useContext(OurShopContext);
+
   useEffect(() => {
     const query = {
       sortType: 0,
@@ -25,9 +23,6 @@ function HomePage() {
     getProduct(query).then((res) => {
       setListProduct(res.contents);
     });
-  }, []);
-  useEffect(() => {
-    setIsShowGrid(true);
   }, []);
 
   return (

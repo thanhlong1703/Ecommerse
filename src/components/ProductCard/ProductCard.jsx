@@ -4,7 +4,7 @@ import cartIcon from '@icons/svgs/cartIcon.svg';
 import heartIcon from '@icons/svgs/heartIcon.svg';
 import classNames from 'classnames';
 import Button from '@components/Button/Button';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { OurShopContext } from '@/contexts/OurShopProvider';
 
 function ProductCard({
@@ -15,7 +15,19 @@ function ProductCard({
   details,
   isHomePage = true
 }) {
-  const { isShowGrid } = useContext(OurShopContext);
+  const ourShopStore = useContext(OurShopContext);
+  const [sizeChose, setSizeChose] = useState('');
+
+  const [isShowGrid, setIsShowGrid] = useState(ourShopStore?.isShowGrid);
+
+  useEffect(() => {
+    if (isHomePage) {
+      setIsShowGrid(true);
+    } else {
+      setIsShowGrid(ourShopStore?.isShowGrid);
+    }
+  }, [isHomePage, ourShopStore?.isShowGrid]);
+
   const {
     container,
     focusImage,
@@ -29,10 +41,15 @@ function ProductCard({
     textCenter,
     boxBtn,
     gridContainer,
-    content
+    content,
+    isActiveSize,
+    btnClear
   } = styles;
 
-  console.log(isShowGrid);
+  const handleChoseSize = (size) => {
+    setSizeChose(size);
+  };
+
   return (
     <div
       className={classNames(container, {
@@ -56,14 +73,22 @@ function ProductCard({
           <div className={boxSize}>
             {details.size.map((item, index) => {
               return (
-                <div key={index} className={size}>
+                <div
+                  key={index}
+                  className={classNames(size, {
+                    [isActiveSize]: sizeChose === item.name
+                  })}
+                  onClick={() => handleChoseSize(item.name)}
+                >
                   {item.name}
                 </div>
               );
             })}
           </div>
         )}
-
+        <div className={btnClear} onClick={() => setSizeChose('')}>
+          {sizeChose && 'Clear'}
+        </div>
         <div
           className={classNames(infoProduct, {
             [textCenter]: !isHomePage
@@ -74,7 +99,7 @@ function ProductCard({
           <div className={infoPrice}>${price}</div>
           {!isHomePage && (
             <div className={boxBtn}>
-              <Button content={'Add to cart'} />
+              <Button content={sizeChose ? 'Add to cart' : 'Select Option'} />
             </div>
           )}
         </div>

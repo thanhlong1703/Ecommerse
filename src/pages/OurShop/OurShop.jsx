@@ -6,6 +6,7 @@ import Banner from '@pages/OurShop/components/Banner';
 import { OurShopProvider } from '@contexts/OurShopProvider';
 import Filter from '@/pages/OurShop/components/Filter';
 import ListProducts from '@/pages/OurShop/components/ListProducts';
+import Footer from '@components/Footer/Footer';
 function OurShop() {
   const { container, fncBox, special, btnBack } = styles;
 
@@ -16,7 +17,7 @@ function OurShop() {
   };
 
   return (
-    <>
+    <OurShopProvider>
       <Header />
       <MainLayout>
         <div className={container}>
@@ -35,7 +36,8 @@ function OurShop() {
           </div>
         </div>
       </MainLayout>
-    </>
+      <Footer />
+    </OurShopProvider>
   );
 }
 
