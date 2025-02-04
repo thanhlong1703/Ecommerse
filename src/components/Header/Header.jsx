@@ -20,11 +20,14 @@ function Header() {
     boxIconItem,
     boxMenu,
     topHeader,
-    fixedHeader
+    fixedHeader,
+    boxCart,
+    quantity
   } = styles;
   const { scrollPosition } = useScrollHandling();
   const [fixed, setfixed] = useState(false);
-  const { isOpen, setIsOpen, type, setType } = useContext(SideBarContext);
+  const { isOpen, setIsOpen, type, setType, listCart } =
+    useContext(SideBarContext);
 
   const handleOpenSideBar = (typeSideBar) => {
     setIsOpen(true);
@@ -74,11 +77,14 @@ function Header() {
               className={boxIconItem}
               onClick={() => handleOpenSideBar('wishlist')}
             />
-            <TfiShoppingCart
-              style={{ fontSize: 20 }}
-              className={boxIconItem}
-              onClick={() => handleOpenSideBar('cart')}
-            />
+            <div className={boxCart}>
+              <TfiShoppingCart
+                style={{ fontSize: 20 }}
+                className={boxIconItem}
+                onClick={() => handleOpenSideBar('cart')}
+              />
+              <div className={quantity}>{listCart.length}</div>
+            </div>
           </div>
         </div>
       </div>

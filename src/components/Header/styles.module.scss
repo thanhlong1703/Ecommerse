@@ -45,3 +45,19 @@
 .boxMenu {
   @include flex_box_custom(center, center, 30px);
 }
+.boxCart {
+  position: relative;
+  .quantity {
+    @include flex_box_custom(center, center, 0px);
+    @include radius_common(50%);
+
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    top: -5px;
+    left: -10px;
+    font-size: 10px;
+    color: #fff;
+    background-color: #333333;
+  }
+}

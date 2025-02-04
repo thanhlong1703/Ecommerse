@@ -6,7 +6,11 @@ import classNames from 'classnames';
 import Button from '@components/Button/Button';
 import { useContext, useEffect, useState } from 'react';
 import { OurShopContext } from '@/contexts/OurShopProvider';
-
+import Cookies from 'js-cookie';
+import { SideBarContext } from '@/contexts/SideBarProvider';
+import { ToastContext } from '@/contexts/ToastProvider';
+import { addProductToCart } from '@/apis/cartService';
+import LoadingCommon from '@components/LoadingCommon';
 function ProductCard({
   src,
   srcFocus,
@@ -17,8 +21,11 @@ function ProductCard({
 }) {
   const ourShopStore = useContext(OurShopContext);
   const [sizeChose, setSizeChose] = useState('');
-
+  const userId = Cookies.get('userId');
   const [isShowGrid, setIsShowGrid] = useState(ourShopStore?.isShowGrid);
+  const { setIsOpen, setType, handleGetListCart } = useContext(SideBarContext);
+  const { toast } = useContext(ToastContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (isHomePage) {
@@ -49,7 +56,39 @@ function ProductCard({
   const handleChoseSize = (size) => {
     setSizeChose(size);
   };
+  const handleAddToCart = () => {
+    if (!userId) {
+      setIsOpen(true);
+      setType('login');
+      toast.warning('Please login to add product to cart');
 
+      return;
+    }
+    if (!sizeChose) {
+      toast.warning('Please chose size');
+
+      return;
+    }
+    const data = {
+      userId,
+      productId: details._id,
+      quantity: 1,
+      size: sizeChose
+    };
+    setIsLoading(true);
+    addProductToCart(data)
+      .then((res) => {
+        toast.success(res.data.msg);
+        setIsOpen(true);
+        setType('cart');
+        setIsLoading(false);
+        handleGetListCart(userId, 'cart');
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        toast.error(res.data.msg);
+      });
+  };
   return (
     <div
       className={classNames(container, {
@@ -99,7 +138,18 @@ function ProductCard({
           <div className={infoPrice}>${price}</div>
           {!isHomePage && (
             <div className={boxBtn}>
-              <Button content={sizeChose ? 'Add to cart' : 'Select Option'} />
+              <Button
+                content={
+                  isLoading ? (
+                    <LoadingCommon />
+                  ) : sizeChose ? (
+                    'Add to cart'
+                  ) : (
+                    'Select Option'
+                  )
+                }
+                onClick={handleAddToCart}
+              />
             </div>
           )}
         </div>
