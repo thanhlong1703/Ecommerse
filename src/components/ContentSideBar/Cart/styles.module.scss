@@ -1,9 +1,6 @@
 @import '@styles/mixin.module.scss';
 
 .container {
-  @include flex_box_custom(space-between, space-between, 25px);
-
-  flex-direction: column;
   height: 95vh;
   padding: 30px 20px;
   .total {
@@ -16,12 +13,16 @@
     flex-direction: column;
   }
   .itemCart {
-    height: '85%';
+    @include flex_box_custom(space-between, space-between, 25px);
+
+    height: 90%;
+    flex-direction: column;
+    margin-top: 20px;
     .listItemCart {
       position: relative;
-      max-height: '90%';
-      overflow-y: 'scroll';
-      scrollbar-width: 'none';
+      max-height: 90%;
+      overflow-y: scroll;
+      scrollbar-width: none;
       .overlay {
         @include flex_box_custom(center, center, 0px);
 
@@ -34,5 +35,11 @@
         opacity: 0.5;
       }
     }
+  }
+  .boxNoProduct {
+    @include flex_box_custom(center, center, 20px);
+    flex-direction: column;
+
+    margin-top: 25px;
   }
 }
