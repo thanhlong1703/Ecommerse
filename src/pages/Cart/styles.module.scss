@@ -49,3 +49,9 @@
 .containerContents {
   @include flex_box_custom(space-between, center, 0px);
 }
+.titleProduct {
+  @include flex_box_custom(space-between, center, 0px);
+  .nameProduct {
+    width: 80%;
+  }
+}

@@ -30,6 +30,7 @@ function Filter() {
           options={sortOptions}
           getValue={getValueSelect}
           type='sort'
+          defaultValue={sortOptions[0]}
         />
         <div className={boxIcon}>
           <TfiLayoutGrid4
@@ -51,6 +52,7 @@ function Filter() {
           options={showOptions}
           getValue={getValueSelect}
           type='show'
+          defaultValue={showOptions[0]}
         />
       </div>
     </div>

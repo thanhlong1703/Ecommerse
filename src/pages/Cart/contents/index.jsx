@@ -1,9 +1,12 @@
+import CartTable from '@/pages/Cart/contents/CartTable';
 import styles from '../styles.module.scss';
 function Contents() {
   const { containerContents } = styles;
   return (
     <div className={containerContents}>
-      <div>danh sach san pham</div>
+      <div>
+        <CartTable />
+      </div>
       <div>payment</div>
     </div>
   );
