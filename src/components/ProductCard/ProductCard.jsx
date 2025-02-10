@@ -11,6 +11,8 @@ import { SideBarContext } from '@/contexts/SideBarProvider';
 import { ToastContext } from '@/contexts/ToastProvider';
 import { addProductToCart } from '@/apis/cartService';
 import LoadingCommon from '@components/LoadingCommon';
+import { LiaEyeSolid } from 'react-icons/lia';
+
 function ProductCard({
   src,
   srcFocus,
@@ -23,7 +25,8 @@ function ProductCard({
   const [sizeChose, setSizeChose] = useState('');
   const userId = Cookies.get('userId');
   const [isShowGrid, setIsShowGrid] = useState(ourShopStore?.isShowGrid);
-  const { setIsOpen, setType, handleGetListCart } = useContext(SideBarContext);
+  const { setIsOpen, setType, handleGetListCart, setDetail } =
+    useContext(SideBarContext);
   const { toast } = useContext(ToastContext);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -88,6 +91,11 @@ function ProductCard({
         setIsLoading(false);
         toast.error(res.data.msg);
       });
+  };
+  const handleShowDetail = () => {
+    setIsOpen(true);
+    setType('detail');
+    setDetail(details);
   };
   return (
     <div
@@ -165,7 +173,9 @@ function ProductCard({
         <div className={fncProduct}>
           <img src={reloadIcon} alt='cart' width={14} height={14} />
         </div>
-        <div></div>
+        <div className={fncProduct} onClick={handleShowDetail}>
+          <LiaEyeSolid color='white' />
+        </div>
       </div>
     </div>
   );

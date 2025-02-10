@@ -47,11 +47,165 @@
   }
 }
 .containerContents {
-  @include flex_box_custom(space-between, center, 0px);
+  @include flex_box_custom(space-between, flex-start, 20px);
+
+  margin-top: 40px;
 }
-.titleProduct {
-  @include flex_box_custom(space-between, center, 0px);
-  .nameProduct {
-    width: 80%;
+.containerTable {
+  position: relative;
+  width: 60%;
+  .boxFnc {
+    @include flex_box_custom(space-between, center, 0px);
+    margin-top: 10px;
+    .fncCoupon {
+      @include flex_box_custom(center, center, 0px);
+      width: 40%;
+      input {
+        height: 30px;
+        border-radius: 0;
+        border-right: 0;
+        border: 1px solid #e1e1e1e1;
+        padding: 0 20px;
+      }
+      input:focus {
+        outline: none;
+        border: 1px solid #333;
+        border-right: 0;
+      }
+      button {
+        width: 32px;
+        height: 32px;
+        border-radius: 0;
+      }
+    }
+    .fncClear {
+      .boxClear {
+        @include flex_box_custom(center, center, 20px);
+      }
+      button {
+        height: 32px;
+        padding: 0 20px;
+      }
+    }
+  }
+  .overlay {
+    @include flex_box_custom(center, center, 0px);
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    opacity: 0.5;
+  }
+  .titleProduct {
+    @include flex_box_custom(space-between, center, 0px);
+    .nameProduct {
+      width: 80%;
+    }
+  }
+}
+
+.containerPayment {
+  width: 35%;
+  @include flex_box_custom(center, center, 0px);
+  flex-direction: column;
+  .boxPayment {
+    @include flex_box_custom(center, flex-start, 20px);
+    width: 100%;
+    flex-direction: column;
+    border: 2px solid #333;
+    padding: 30px;
+    .line {
+      height: 1px;
+      width: 100%;
+      background-color: #e1e1e1;
+    }
+    .lineSubTotal {
+      @include flex_box_custom(space-between, center, 0px);
+      width: 100%;
+    }
+    .lineTotal {
+      @include flex_box_custom(space-between, center, 0px);
+      width: 100%;
+      font-size: 20px;
+      .totalValue {
+        letter-spacing: 2px;
+      }
+    }
+    .boxButton {
+      @include flex_box_custom(center, center, 10px);
+      flex-direction: column;
+      width: 100%;
+    }
+  }
+  .boxSummary {
+    width: 100%;
+    position: relative;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    max-width: 600px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    .titleSummary {
+      position: absolute;
+      top: -10px;
+      width: 95%;
+      background-color: #fff;
+      font-size: 18px;
+      font-weight: 300;
+      margin-bottom: 20px;
+    }
+
+    .safe {
+      color: #28a745; /* Màu xanh lá */
+    }
+
+    .paymentIcons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    .boxIcons {
+      @include flex_box_custom(center, center, 0px);
+      width: 50px;
+      border: 1px solid #e1e1e1;
+      border-radius: 4px;
+    }
+    .paymentIcons img {
+      width: 30px;
+      height: 30px;
+      height: auto;
+    }
+
+    .secureText {
+      font-size: 16px;
+      color: #333;
+      margin-top: 10px;
+    }
+  }
+}
+.boxEmptyCart {
+  @include flex_box_custom(center, center, 20px);
+  flex-direction: column;
+
+  width: 100%;
+  font-size: 14px;
+  color: $thr_color;
+
+  .titleEmpty {
+    font-size: 24px;
+    color: $primary_color;
+  }
+
+  .boxBtnEmpty {
+    button {
+      padding: 0 20px;
+      font-size: 12px;
+    }
   }
 }

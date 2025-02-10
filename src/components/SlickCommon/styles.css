@@ -1,0 +1,13 @@
+.slick-arrow {
+  &:hover {
+    color: #fff;
+  }
+}
+.slick-prev {
+  left: 0px;
+  z-index: 99;
+}
+.slick-next {
+  right: 0;
+  z-index: 99;
+}

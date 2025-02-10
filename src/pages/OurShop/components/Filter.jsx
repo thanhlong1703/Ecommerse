@@ -5,8 +5,7 @@ import { useContext } from 'react';
 import { OurShopContext } from '@contexts/OurShopProvider';
 import SelectBox from '@pages/OurShop/components/SelectBox';
 function Filter() {
-  const { containerFilter, boxIcon, boxLeft, boxRight, selectbox, show, sort } =
-    styles;
+  const { containerFilter, boxIcon, boxLeft, boxRight } = styles;
 
   const { showOptions, sortOptions, setSortId, setShowId, setIsShowGrid } =
     useContext(OurShopContext);
