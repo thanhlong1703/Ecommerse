@@ -12,6 +12,7 @@ import { ToastContext } from '@/contexts/ToastProvider';
 import { addProductToCart } from '@/apis/cartService';
 import LoadingCommon from '@components/LoadingCommon';
 import { LiaEyeSolid } from 'react-icons/lia';
+import { useNavigate } from 'react-router-dom';
 
 function ProductCard({
   src,
@@ -55,7 +56,7 @@ function ProductCard({
     isActiveSize,
     btnClear
   } = styles;
-
+  const navigate = useNavigate();
   const handleChoseSize = (size) => {
     setSizeChose(size);
   };
@@ -97,20 +98,28 @@ function ProductCard({
     setType('detail');
     setDetail(details);
   };
+  const handleNavigateToDetail = () => {
+    const path = `/product/${details._id}`;
+
+    console.log(path);
+    navigate(path);
+  };
   return (
     <div
       className={classNames(container, {
         [gridContainer]: !isShowGrid
       })}
     >
-      <img src={src} alt='product-image' width={295} height={353} />
-      <img
-        src={srcFocus}
-        alt='product-image'
-        width={295}
-        height={353}
-        className={focusImage}
-      />
+      <div style={{ cursor: 'pointer' }} onClick={handleNavigateToDetail}>
+        <img src={src} alt='product-image' width={295} height={353} />
+        <img
+          src={srcFocus}
+          alt='product-image'
+          width={295}
+          height={353}
+          className={focusImage}
+        />
+      </div>
       <div
         className={classNames({
           [content]: !isShowGrid

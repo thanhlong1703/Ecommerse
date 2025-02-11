@@ -11,6 +11,10 @@ const routers = [
   {
     path: '/cart',
     component: lazy(() => import('@pages/Cart/index'))
+  },
+  {
+    path: '/product/:id',
+    component: lazy(() => import('@pages/DetailProduct/index'))
   }
 ];
 

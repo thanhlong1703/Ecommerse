@@ -6,6 +6,13 @@ import classNames from 'classnames';
 import SelectBox from '@/pages/OurShop/components/SelectBox';
 import Button from '@components/Button/Button';
 import LoadingCommon from '@components/LoadingCommon';
+import { TfiReload } from 'react-icons/tfi';
+import { FaRegHeart } from 'react-icons/fa';
+import { PiShoppingCartLight } from 'react-icons/pi';
+import { FaXTwitter } from 'react-icons/fa6';
+import { FaFacebookF } from 'react-icons/fa';
+import { addProductToCart } from '@/apis/cartService';
+
 const showOptions = [
   { label: '1', value: '1' },
   { label: '2', value: '2' },
@@ -25,9 +32,15 @@ function Detail() {
     btnClear,
     boxSelect,
     boxOr,
-    line
+    line,
+    boxBtn,
+    fncAdd,
+    boxQuickAction,
+    cntBtn,
+    boxFooter,
+    rowFooter
   } = styles;
-  const { detail } = useContext(SideBarContext);
+  const { detail, userId, setIsOpen } = useContext(SideBarContext);
   const [sizeChose, setSizeChose] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);
@@ -49,8 +62,8 @@ function Detail() {
     }
     const data = {
       userId,
-      productId: details._id,
-      quantity: 1,
+      productId: detail._id,
+      quantity: +quantity,
       size: sizeChose
     };
     setIsLoading(true);
@@ -100,24 +113,80 @@ function Detail() {
             defaultValue={quantity}
             getValue={(e) => setQuantity(e)}
           />
-          <Button
-            content={
-              isLoading ? (
-                <LoadingCommon />
-              ) : sizeChose ? (
-                'Add to cart'
-              ) : (
-                'Select Option'
-              )
-            }
-            onClick={handleAddToCart}
-          />
+          <div className={boxBtn}>
+            <Button
+              content={
+                isLoading ? (
+                  <LoadingCommon />
+                ) : sizeChose ? (
+                  <div className={cntBtn}>
+                    <PiShoppingCartLight />
+                    Add to cart
+                  </div>
+                ) : (
+                  <div className={cntBtn}>
+                    <PiShoppingCartLight />
+                    Select Option
+                  </div>
+                )
+              }
+              onClick={handleAddToCart}
+            />
+          </div>
         </div>
       </div>
       <div className={boxOr}>
         <div className={line} />
         <div style={{ fontSize: '12px' }}>OR</div>
         <div className={line} />
+      </div>
+      <div className={boxQuickAction}>
+        <div className={boxBtn}>
+          <Button
+            content={
+              isLoading ? (
+                <LoadingCommon />
+              ) : sizeChose ? (
+                <div className={cntBtn}>
+                  <PiShoppingCartLight />
+                  Buy now
+                </div>
+              ) : (
+                <div className={cntBtn}>
+                  <PiShoppingCartLight />
+                  Select Option
+                </div>
+              )
+            }
+            onClick={handleAddToCart}
+          />
+        </div>
+        <div className={fncAdd}>
+          <TfiReload />
+          <div>Add to compare</div>
+        </div>
+        <div className={fncAdd}>
+          <FaRegHeart />
+          <div>Add to wishlist</div>
+        </div>
+      </div>
+      <div className={boxFooter}>
+        <div className={rowFooter}>
+          SKU: <span>12349</span>
+        </div>
+        <div className={rowFooter}>
+          Category: <span>Pullovers</span>
+        </div>
+        <div className={rowFooter}>
+          Estimated delivery: <span>3 - 5 days</span>
+        </div>
+        <div className={rowFooter}>
+          Share:{' '}
+          <span>
+            <FaXTwitter />
+            <FaFacebookF />
+          </span>
+        </div>
       </div>
     </div>
   );
