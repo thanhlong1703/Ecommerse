@@ -46,7 +46,7 @@
         margin: 20px 0;
       }
       .boxSize {
-        @include flex_box_custom(center, flex-start, 10px);
+        @include flex_box_custom(center, flex-start, 20px);
         flex-direction: column;
         margin: 20px 0;
         .boxSelectSize {
@@ -60,6 +60,13 @@
             font-weight: 400;
             cursor: pointer;
           }
+          .active {
+            border: 1px solid #555;
+          }
+        }
+        .btnClear {
+          text-decoration: underline;
+          cursor: pointer;
         }
       }
       .boxFncAdd {
@@ -172,6 +179,143 @@
           transition: all 0.3s ease;
         }
       }
+      .boxAccordionMenu {
+        margin: 20px 0;
+        .containerInfo {
+          font-weight: 300;
+
+          div:last-child {
+            border-bottom: unset;
+          }
+
+          .itemInfo {
+            @include flex_box_custom(flex-start, center, 0px);
+
+            border-bottom: 1px solid #e1e1e1;
+            padding: 15px 0px;
+
+            div {
+              width: 50%;
+            }
+
+            .title {
+              color: #888;
+            }
+
+            .content {
+              color: #555;
+            }
+          }
+        }
+        .containerReview {
+          .reviews {
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e1e1e1;
+          }
+
+          .noreview {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 20px;
+          }
+
+          .replyForm {
+            padding-top: 30px;
+
+            .commentReplyTitle {
+              font-size: 14px;
+              margin-bottom: 14px;
+              padding-bottom: 14px;
+              border-bottom: 1px solid #e1e1e1;
+              color: #555;
+            }
+
+            .commentTotes {
+              font-size: 14px;
+              color: #555;
+              margin-bottom: 20px;
+            }
+
+            form {
+              display: flex;
+              flex-direction: column;
+              gap: 20px;
+
+              .commentFormCookiesConsent {
+                display: flex;
+                align-items: flex-start;
+                gap: 5px;
+
+                input {
+                  margin-top: 3px;
+                }
+
+                span {
+                  color: #555;
+                }
+              }
+
+              .btnSubmit {
+                width: 100%;
+                max-width: 110px;
+              }
+            }
+          }
+        }
+        .formItem {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+
+          .boxItemStar {
+            display: flex;
+            gap: 25px;
+          }
+
+          label {
+            color: $thr_color;
+
+            span {
+              color: #c62828;
+            }
+          }
+
+          input,
+          textarea {
+            border: 1px solid #e1e1e1;
+            padding: 8px 15px;
+            outline: none;
+
+            &:focus {
+              border: 1px solid #888;
+            }
+          }
+        }
+      }
     }
+  }
+  .boxRelate {
+    h2 {
+      text-align: center;
+      font-size: 24px;
+      font-weight: normal;
+    }
+  }
+  .activeDisabledBtn {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  .activeDisabledBtn:hover {
+    background-color: #333 !important;
+    color: #fff;
+  }
+  .loading {
+    height: 977px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f7f7f7;
   }
 }

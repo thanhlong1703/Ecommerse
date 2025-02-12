@@ -20,7 +20,8 @@ function ProductCard({
   nameProduct,
   price,
   details,
-  isHomePage = true
+  isHomePage = true,
+  slideItem = false
 }) {
   const ourShopStore = useContext(OurShopContext);
   const [sizeChose, setSizeChose] = useState('');
@@ -101,9 +102,11 @@ function ProductCard({
   const handleNavigateToDetail = () => {
     const path = `/product/${details._id}`;
 
-    console.log(path);
     navigate(path);
   };
+  useEffect(() => {
+    if (slideItem) setIsShowGrid(true);
+  }, [slideItem]);
   return (
     <div
       className={classNames(container, {
@@ -124,6 +127,9 @@ function ProductCard({
         className={classNames({
           [content]: !isShowGrid
         })}
+        style={{
+          marginTop: slideItem && '10px'
+        }}
       >
         {!isHomePage && (
           <div className={boxSize}>

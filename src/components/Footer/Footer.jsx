@@ -9,9 +9,9 @@ function Footer() {
         width={160}
       />
       <div className={menu}>
-        {dataMenuFooter.map((item) => {
+        {dataMenuFooter.map((item, index) => {
           return (
-            <div src={item.href} className={menuItem}>
+            <div src={item.href} className={menuItem} key={index}>
               {item.content}
             </div>
           );

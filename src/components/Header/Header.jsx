@@ -47,13 +47,15 @@ function Header() {
       <div className={containerHeader}>
         <div className={boxContainer}>
           <div className={boxIconSNS}>
-            {dataBoxIcon.slice(0, 3).map((item) => {
-              return <BoxIcon type={item.type} href={item.href} />;
+            {dataBoxIcon.slice(0, 3).map((item, index) => {
+              return <BoxIcon type={item.type} href={item.href} key={index} />;
             })}
           </div>
           <div className={boxMenu}>
-            {dataMenu.slice(0, 3).map((item) => {
-              return <Menu content={item.content} href={item.href} />;
+            {dataMenu.slice(0, 3).map((item, index) => {
+              return (
+                <Menu content={item.content} href={item.href} key={index} />
+              );
             })}
           </div>
         </div>
@@ -62,8 +64,10 @@ function Header() {
         </div>
         <div className={boxContainer}>
           <div className={boxMenu}>
-            {dataMenu.slice(3).map((item) => {
-              return <Menu content={item.content} href={item.href} />;
+            {dataMenu.slice(3).map((item, index) => {
+              return (
+                <Menu content={item.content} href={item.href} key={index} />
+              );
             })}
           </div>
           <div className={boxIcon}>

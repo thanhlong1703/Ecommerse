@@ -68,7 +68,7 @@ function Cart() {
           <div>
             <div className={total}>
               <div>Subtotal:</div>
-              <div>${subTotal}</div>
+              <div>${subTotal.toFixed(2)}</div>
             </div>
             <div className={boxButton}>
               <Button content={'VIEW CART'} onClick={handleNavigateToCart} />

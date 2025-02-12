@@ -1,0 +1,27 @@
+@import '@styles/mixin.module.scss';
+.container {
+  .title {
+    @include flex_box_custom(flex-start, center, 5px);
+
+    font-size: 14px;
+    color: #404040;
+    padding: 9px 15px;
+    cursor: pointer;
+  }
+  .activeTitle {
+    background-color: #f7f7f7;
+  }
+  .contentMenu {
+    height: 0px;
+    overflow: hidden;
+    padding: 0px 20px;
+    transition: all 0.3s ease;
+  }
+  .isVisible {
+    height: auto;
+    padding: 20px;
+  }
+  .borderBottom {
+    border-bottom: 1px solid #e1e1e1;
+  }
+}

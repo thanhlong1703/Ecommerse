@@ -4,7 +4,18 @@ import MainLayout from '@components/Layout/Layout';
 import Button from '@components/Button/Button';
 import { TfiReload } from 'react-icons/tfi';
 import { FaRegHeart } from 'react-icons/fa';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import AccordionMenu from '@components/AccordionMenu';
+import Information from '@/pages/DetailProduct/components/Information';
+import ReviewProduct from '@/pages/DetailProduct/components/Review';
+import Footer from '@components/Footer/Footer';
+import SlickCommon from '@components/SlickCommon';
+import ReactImageMagnifier from 'simple-image-magnifier/react';
+import { getDetailProduct, getRelatedProduct } from '@/apis/service';
+import { useParams } from 'react-router-dom';
+import classNames from 'classnames';
+import LoadingCommon from '@components/LoadingCommon';
+
 const logoSummary = [
   {
     src: 'https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png',
@@ -31,6 +42,42 @@ const logoSummary = [
     alt: 'bitcoin'
   }
 ];
+const dataAccordionMenu = [
+  {
+    id: 1,
+    titleMenu: 'ADDITIONAL INFORMATION',
+    content: <Information />
+  },
+  {
+    id: 2,
+    titleMenu: 'REVIEW (0)',
+    content: <ReviewProduct />
+  }
+];
+const tempDataSlider = [
+  {
+    image:
+      'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-15.2-min.jpg',
+    name: 'Test Product 1',
+    price: '1000',
+    size: [{ name: 'L' }, { name: 'S' }]
+  },
+  {
+    image:
+      'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-15.2-min.jpg',
+    name: 'Test Product 1',
+    price: '1000',
+    size: [{ name: 'L' }, { name: 'S' }]
+  },
+  {
+    image:
+      'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-15.2-min.jpg',
+    name: 'Test Product 1',
+    price: '1000',
+    size: [{ name: 'L' }, { name: 'S' }]
+  }
+];
+
 function DetailProduct() {
   const {
     container,
@@ -56,9 +103,75 @@ function DetailProduct() {
     paymentIcons,
     boxIcons,
     secureText,
-    boxInfo
+    boxInfo,
+    btnClear,
+    active,
+    boxAccordionMenu,
+    loading,
+    boxRelate,
+    activeDisabledBtn
   } = styles;
   const [countQuantity, setCountQuantity] = useState(1);
+  const [menuSelected, setMenuSelected] = useState(1);
+  const [sizeSelected, setSizeSelected] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState();
+  const [relatedData, setRelatedData] = useState([]);
+  const param = useParams();
+
+  const fetchDataDetail = async (id) => {
+    setIsLoading(true);
+    try {
+      const data = await getDetailProduct(id);
+
+      setData(data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log('error', error);
+      setIsLoading(false);
+    }
+  };
+
+  const fetchDataRelated = async (id) => {
+    setIsLoading(true);
+    try {
+      const data = await getRelatedProduct(id);
+
+      setRelatedData(data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log('error', error);
+      setIsLoading(false);
+    }
+  };
+
+  const handleSetMenuSelected = (id) => {
+    if (menuSelected !== id) {
+      setMenuSelected(id);
+    } else {
+      setMenuSelected(0);
+    }
+  };
+
+  const handleSelectedSize = (size) => {
+    setSizeSelected(size);
+  };
+
+  const handleClearSizeSeleted = () => {
+    setSizeSelected('');
+  };
+
+  const handleRenderZoomImage = (src) => {
+    return (
+      <ReactImageMagnifier
+        srcPreview={src}
+        srcOriginal={src}
+        width={295}
+        height={350}
+      />
+    );
+  };
+
   const handleCountQuanity = (action) => {
     setCountQuantity((prev) => {
       if (action === 'reduce') return Math.max(1, prev - 1);
@@ -66,6 +179,14 @@ function DetailProduct() {
       return 1;
     });
   };
+
+  useEffect(() => {
+    if (param.id) {
+      fetchDataDetail(param.id);
+      fetchDataRelated(param.id);
+    }
+  }, [param]);
+
   return (
     <div>
       <Header />
@@ -77,101 +198,126 @@ function DetailProduct() {
               {'<'} Return to previous page{' '}
             </div>
           </div>
-          <div className={boxContent}>
-            <div className={boxImg}>
-              <img
-                src='https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-7.1-min.jpg'
-                alt='img1'
-              />
-              <img
-                src='https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-7.2-min.jpg'
-                alt='img2'
-              />
-              <img
-                src='https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-7.3-min.jpg'
-                alt='img3'
-              />
-              <img
-                src='https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-7.4-min.jpg'
-                alt='img4'
-              />
+          {isLoading || !data ? (
+            <div className={loading}>
+              <LoadingCommon />
             </div>
-            <div className={boxDetail}>
-              <h1>Amet faucibus nunc</h1>
-              <div className={priceItem}>$1,879.99 – $1,888.99</div>
-              <div className={descriptionItem}>
-                Amet, elit tellus, nisi odio velit ut. Euismod sit arcu, quisque
-                arcu purus orci leo.
+          ) : (
+            <div className={boxContent}>
+              <div className={boxImg}>
+                {data.images.map((item) => handleRenderZoomImage(item))}
               </div>
-              <div className={boxSize}>
-                <div>Size</div>
-                <div className={boxSelectSize}>
-                  <div className={sizeItem}>S</div>
-                  <div className={sizeItem}>M</div>
-                  <div className={sizeItem}>L</div>
-                </div>
-              </div>
-              <div className={boxFncAdd}>
-                <div className={fncCout}>
-                  <div onClick={() => handleCountQuanity('reduce')}>-</div>
-                  <input
-                    value={countQuantity}
-                    onChange={(e) => setCountQuantity(e.target.value)}
-                    onBlur={() => {
-                      if (countQuantity === '' || countQuantity < 1)
-                        setCountQuantity(1);
-                    }}
-                  />
-                  <div onClick={() => handleCountQuanity('increase')}>+</div>
-                </div>
-                <div className={boxBtn}>
-                  <Button content={'Add to cart'} />
-                </div>
-              </div>
-              <div className={boxOr}>
-                <div className={line} />
-                <div style={{ fontSize: '12px' }}>OR</div>
-                <div className={line} />
-              </div>
-              <div>
-                <Button content={'Buy now'} />
-              </div>
-              <div className={boxFncTick}>
-                <div className={tick}>
-                  <FaRegHeart />
-                </div>
-                <div className={tick}>
-                  <TfiReload />
-                </div>
-              </div>
-              <div className={boxSummary}>
-                <div className={titleSummary}>
-                  GUARANTEED <span className={safe}>SAFE</span> CHECKOUT
-                </div>
-                <div className={paymentIcons}>
-                  {logoSummary.map((item) => (
-                    <div className={boxIcons}>
-                      <img src={item.src} alt={item.alt} />
+              <div className={boxDetail}>
+                <h1>{data.name}</h1>
+                <div className={priceItem}>${data.price}</div>
+                <div className={descriptionItem}>{data.description}</div>
+                <div className={boxSize}>
+                  <div>Size {sizeSelected}</div>
+                  <div className={boxSelectSize}>
+                    {data?.size.map((itemSize, index) => {
+                      return (
+                        <div
+                          className={classNames(sizeItem, {
+                            [active]: sizeSelected === itemSize.name
+                          })}
+                          key={index}
+                          onClick={() => handleSelectedSize(itemSize.name)}
+                        >
+                          {itemSize.name}
+                        </div>
+                      );
+                    })}
+                  </div>
+                  {sizeSelected && (
+                    <div className={btnClear} onClick={handleClearSizeSeleted}>
+                      Clear
                     </div>
+                  )}
+                </div>
+                <div className={boxFncAdd}>
+                  <div className={fncCout}>
+                    <div onClick={() => handleCountQuanity('reduce')}>-</div>
+                    <input
+                      value={countQuantity}
+                      onChange={(e) => setCountQuantity(e.target.value)}
+                      onBlur={() => {
+                        if (countQuantity === '' || countQuantity < 1)
+                          setCountQuantity(1);
+                      }}
+                    />
+                    <div onClick={() => handleCountQuanity('increase')}>+</div>
+                  </div>
+                  <div className={boxBtn}>
+                    <Button
+                      content={'Add to cart'}
+                      customClassname={!sizeSelected && activeDisabledBtn}
+                    />
+                  </div>
+                </div>
+                <div className={boxOr}>
+                  <div className={line} />
+                  <div style={{ fontSize: '12px' }}>OR</div>
+                  <div className={line} />
+                </div>
+                <div>
+                  <Button
+                    content={'Buy now'}
+                    customClassname={!sizeSelected && activeDisabledBtn}
+                  />
+                </div>
+                <div className={boxFncTick}>
+                  <div className={tick}>
+                    <FaRegHeart />
+                  </div>
+                  <div className={tick}>
+                    <TfiReload />
+                  </div>
+                </div>
+                <div className={boxSummary}>
+                  <div className={titleSummary}>
+                    GUARANTEED <span className={safe}>SAFE</span> CHECKOUT
+                  </div>
+                  <div className={paymentIcons}>
+                    {logoSummary.map((item, index) => (
+                      <div className={boxIcons} key={index}>
+                        <img src={item.src} alt={item.alt} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <p className={secureText}>Your Payment is 100% Secure</p>
+                <div className={boxInfo}>
+                  <div>
+                    Brand: <span>Brand 03</span>
+                  </div>
+                  <div>
+                    SKU: <span>87654</span>
+                  </div>
+                  <div>
+                    Category: <span>Men</span>
+                  </div>
+                </div>
+                <div className={boxAccordionMenu}>
+                  {dataAccordionMenu.map((item, index) => (
+                    <AccordionMenu
+                      titleMenu={item.titleMenu}
+                      contents={item.content}
+                      key={index}
+                      onClick={() => handleSetMenuSelected(item.id)}
+                      isSelected={menuSelected === item.id}
+                    />
                   ))}
                 </div>
               </div>
-              <p className={secureText}>Your Payment is 100% Secure</p>
-              <div className={boxInfo}>
-                <div>
-                  Brand: <span>Brand 03</span>
-                </div>
-                <div>
-                  SKU: <span>87654</span>
-                </div>
-                <div>
-                  Category: <span>Men</span>
-                </div>
-              </div>
             </div>
+          )}
+          <div className={boxRelate}>
+            <h2>Related products</h2>
+            <SlickCommon data={relatedData} isProductItem showItem={4} />
           </div>
         </MainLayout>
       </div>
+      <Footer />
     </div>
   );
 }

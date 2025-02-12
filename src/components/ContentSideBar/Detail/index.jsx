@@ -12,6 +12,7 @@ import { PiShoppingCartLight } from 'react-icons/pi';
 import { FaXTwitter } from 'react-icons/fa6';
 import { FaFacebookF } from 'react-icons/fa';
 import { addProductToCart } from '@/apis/cartService';
+import { ToastContext } from '@/contexts/ToastProvider';
 
 const showOptions = [
   { label: '1', value: '1' },
@@ -40,7 +41,9 @@ function Detail() {
     boxFooter,
     rowFooter
   } = styles;
-  const { detail, userId, setIsOpen } = useContext(SideBarContext);
+  const { detail, userId, setType, setIsOpen, handleGetListCart } =
+    useContext(SideBarContext);
+  const { toast } = useContext(ToastContext);
   const [sizeChose, setSizeChose] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);
@@ -67,6 +70,7 @@ function Detail() {
       size: sizeChose
     };
     setIsLoading(true);
+    setIsOpen(false);
     addProductToCart(data)
       .then((res) => {
         toast.success(res.data.msg);
@@ -80,7 +84,7 @@ function Detail() {
         toast.error(res.data.msg);
       });
   };
-  console.log(detail);
+
   return (
     <div className={container}>
       <SlickCommon data={detail.images} />
