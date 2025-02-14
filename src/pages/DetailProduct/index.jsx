@@ -4,7 +4,7 @@ import MainLayout from '@components/Layout/Layout';
 import Button from '@components/Button/Button';
 import { TfiReload } from 'react-icons/tfi';
 import { FaRegHeart } from 'react-icons/fa';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import AccordionMenu from '@components/AccordionMenu';
 import Information from '@/pages/DetailProduct/components/Information';
 import ReviewProduct from '@/pages/DetailProduct/components/Review';
@@ -12,9 +12,10 @@ import Footer from '@components/Footer/Footer';
 import SlickCommon from '@components/SlickCommon';
 import ReactImageMagnifier from 'simple-image-magnifier/react';
 import { getDetailProduct, getRelatedProduct } from '@/apis/service';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import classNames from 'classnames';
 import LoadingCommon from '@components/LoadingCommon';
+import { ToastContext } from '@/contexts/ToastProvider';
 
 const logoSummary = [
   {
@@ -109,8 +110,10 @@ function DetailProduct() {
     boxAccordionMenu,
     loading,
     boxRelate,
-    activeDisabledBtn
+    activeDisabledBtn,
+    emptyData
   } = styles;
+  const { toast } = useContext(ToastContext);
   const [countQuantity, setCountQuantity] = useState(1);
   const [menuSelected, setMenuSelected] = useState(1);
   const [sizeSelected, setSizeSelected] = useState('');
@@ -118,6 +121,11 @@ function DetailProduct() {
   const [data, setData] = useState();
   const [relatedData, setRelatedData] = useState([]);
   const param = useParams();
+  const navigate = useNavigate();
+
+  const handleReturnToShop = () => {
+    navigate('/shop');
+  };
 
   const fetchDataDetail = async (id) => {
     setIsLoading(true);
@@ -127,7 +135,7 @@ function DetailProduct() {
       setData(data);
       setIsLoading(false);
     } catch (error) {
-      console.log('error', error);
+      toast.error('Error fetching detail product');
       setIsLoading(false);
     }
   };
@@ -140,7 +148,7 @@ function DetailProduct() {
       setRelatedData(data);
       setIsLoading(false);
     } catch (error) {
-      console.log('error', error);
+      toast.error('Error fetching related product');
       setIsLoading(false);
     }
   };
@@ -198,123 +206,148 @@ function DetailProduct() {
               {'<'} Return to previous page{' '}
             </div>
           </div>
-          {isLoading || !data ? (
+          {isLoading ? (
             <div className={loading}>
               <LoadingCommon />
             </div>
           ) : (
-            <div className={boxContent}>
-              <div className={boxImg}>
-                {data.images.map((item) => handleRenderZoomImage(item))}
-              </div>
-              <div className={boxDetail}>
-                <h1>{data.name}</h1>
-                <div className={priceItem}>${data.price}</div>
-                <div className={descriptionItem}>{data.description}</div>
-                <div className={boxSize}>
-                  <div>Size {sizeSelected}</div>
-                  <div className={boxSelectSize}>
-                    {data?.size.map((itemSize, index) => {
-                      return (
-                        <div
-                          className={classNames(sizeItem, {
-                            [active]: sizeSelected === itemSize.name
-                          })}
-                          key={index}
-                          onClick={() => handleSelectedSize(itemSize.name)}
-                        >
-                          {itemSize.name}
-                        </div>
-                      );
-                    })}
-                  </div>
-                  {sizeSelected && (
-                    <div className={btnClear} onClick={handleClearSizeSeleted}>
-                      Clear
-                    </div>
-                  )}
-                </div>
-                <div className={boxFncAdd}>
-                  <div className={fncCout}>
-                    <div onClick={() => handleCountQuanity('reduce')}>-</div>
-                    <input
-                      value={countQuantity}
-                      onChange={(e) => setCountQuantity(e.target.value)}
-                      onBlur={() => {
-                        if (countQuantity === '' || countQuantity < 1)
-                          setCountQuantity(1);
-                      }}
-                    />
-                    <div onClick={() => handleCountQuanity('increase')}>+</div>
-                  </div>
-                  <div className={boxBtn}>
-                    <Button
-                      content={'Add to cart'}
-                      customClassname={!sizeSelected && activeDisabledBtn}
-                    />
-                  </div>
-                </div>
-                <div className={boxOr}>
-                  <div className={line} />
-                  <div style={{ fontSize: '12px' }}>OR</div>
-                  <div className={line} />
-                </div>
-                <div>
+            <>
+              {!data ? (
+                <div className={emptyData}>
+                  <p>No Result</p>
                   <Button
-                    content={'Buy now'}
-                    customClassname={!sizeSelected && activeDisabledBtn}
+                    content={'Back to our shop'}
+                    onClick={handleReturnToShop}
                   />
                 </div>
-                <div className={boxFncTick}>
-                  <div className={tick}>
-                    <FaRegHeart />
+              ) : (
+                <div className={boxContent}>
+                  <div className={boxImg}>
+                    {data.images.map((item) => handleRenderZoomImage(item))}
                   </div>
-                  <div className={tick}>
-                    <TfiReload />
-                  </div>
-                </div>
-                <div className={boxSummary}>
-                  <div className={titleSummary}>
-                    GUARANTEED <span className={safe}>SAFE</span> CHECKOUT
-                  </div>
-                  <div className={paymentIcons}>
-                    {logoSummary.map((item, index) => (
-                      <div className={boxIcons} key={index}>
-                        <img src={item.src} alt={item.alt} />
+                  <div className={boxDetail}>
+                    <h1>{data.name}</h1>
+                    <div className={priceItem}>${data.price}</div>
+                    <div className={descriptionItem}>{data.description}</div>
+                    <div className={boxSize}>
+                      <div>Size {sizeSelected}</div>
+                      <div className={boxSelectSize}>
+                        {data?.size.map((itemSize, index) => {
+                          return (
+                            <div
+                              className={classNames(sizeItem, {
+                                [active]: sizeSelected === itemSize.name
+                              })}
+                              key={index}
+                              onClick={() => handleSelectedSize(itemSize.name)}
+                            >
+                              {itemSize.name}
+                            </div>
+                          );
+                        })}
                       </div>
-                    ))}
+                      {sizeSelected && (
+                        <div
+                          className={btnClear}
+                          onClick={handleClearSizeSeleted}
+                        >
+                          Clear
+                        </div>
+                      )}
+                    </div>
+                    <div className={boxFncAdd}>
+                      <div className={fncCout}>
+                        <div onClick={() => handleCountQuanity('reduce')}>
+                          -
+                        </div>
+                        <input
+                          value={countQuantity}
+                          onChange={(e) => setCountQuantity(e.target.value)}
+                          onBlur={() => {
+                            if (countQuantity === '' || countQuantity < 1)
+                              setCountQuantity(1);
+                          }}
+                        />
+                        <div onClick={() => handleCountQuanity('increase')}>
+                          +
+                        </div>
+                      </div>
+                      <div className={boxBtn}>
+                        <Button
+                          content={'Add to cart'}
+                          customClassname={!sizeSelected && activeDisabledBtn}
+                        />
+                      </div>
+                    </div>
+                    <div className={boxOr}>
+                      <div className={line} />
+                      <div style={{ fontSize: '12px' }}>OR</div>
+                      <div className={line} />
+                    </div>
+                    <div>
+                      <Button
+                        content={'Buy now'}
+                        customClassname={!sizeSelected && activeDisabledBtn}
+                      />
+                    </div>
+                    <div className={boxFncTick}>
+                      <div className={tick}>
+                        <FaRegHeart />
+                      </div>
+                      <div className={tick}>
+                        <TfiReload />
+                      </div>
+                    </div>
+                    <div className={boxSummary}>
+                      <div className={titleSummary}>
+                        GUARANTEED <span className={safe}>SAFE</span> CHECKOUT
+                      </div>
+                      <div className={paymentIcons}>
+                        {logoSummary.map((item, index) => (
+                          <div className={boxIcons} key={index}>
+                            <img src={item.src} alt={item.alt} />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <p className={secureText}>Your Payment is 100% Secure</p>
+                    <div className={boxInfo}>
+                      <div>
+                        Brand: <span>Brand 03</span>
+                      </div>
+                      <div>
+                        SKU: <span>87654</span>
+                      </div>
+                      <div>
+                        Category: <span>Men</span>
+                      </div>
+                    </div>
+                    <div className={boxAccordionMenu}>
+                      {dataAccordionMenu.map((item, index) => (
+                        <AccordionMenu
+                          titleMenu={item.titleMenu}
+                          contents={item.content}
+                          key={index}
+                          onClick={() => handleSetMenuSelected(item.id)}
+                          isSelected={menuSelected === item.id}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
-                <p className={secureText}>Your Payment is 100% Secure</p>
-                <div className={boxInfo}>
-                  <div>
-                    Brand: <span>Brand 03</span>
-                  </div>
-                  <div>
-                    SKU: <span>87654</span>
-                  </div>
-                  <div>
-                    Category: <span>Men</span>
-                  </div>
-                </div>
-                <div className={boxAccordionMenu}>
-                  {dataAccordionMenu.map((item, index) => (
-                    <AccordionMenu
-                      titleMenu={item.titleMenu}
-                      contents={item.content}
-                      key={index}
-                      onClick={() => handleSetMenuSelected(item.id)}
-                      isSelected={menuSelected === item.id}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
+              )}
+            </>
           )}
-          <div className={boxRelate}>
-            <h2>Related products</h2>
-            <SlickCommon data={relatedData} isProductItem showItem={4} />
-          </div>
+          {relatedData.length ? (
+            <>
+              <div className={boxRelate}>
+                <h2>Related products</h2>
+                <SlickCommon data={relatedData} isProductItem showItem={4} />
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
         </MainLayout>
       </div>
       <Footer />
