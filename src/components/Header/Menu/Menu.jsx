@@ -4,9 +4,10 @@ import { SideBarContext } from '@/contexts/SideBarProvider';
 import { StoreContext } from '@/contexts/StoreProvider';
 import Button from '@components/Button/Button';
 import { useNavigate } from 'react-router-dom';
+import classNames from 'classnames';
 
 function Menu({ content, href }) {
-  const { menu, subMenu } = styles;
+  const { menu, subMenu, disable } = styles;
   const { setIsOpen, setType } = useContext(SideBarContext);
   const { userInfo, handleLogout } = useContext(StoreContext);
   const [isShowSubMenu, setIsShowSubMenu] = useState(false);
@@ -37,7 +38,9 @@ function Menu({ content, href }) {
 
   return (
     <div
-      className={menu}
+      className={classNames(menu, {
+        [disable]: href === ''
+      })}
       onClick={handleClickShowLogin}
       onMouseEnter={handleHover}
     >

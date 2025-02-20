@@ -10,6 +10,7 @@ import { SideBarContext } from '@/contexts/SideBarProvider';
 import { TfiReload } from 'react-icons/tfi';
 import { TfiHeart } from 'react-icons/tfi';
 import { TfiShoppingCart } from 'react-icons/tfi';
+import { useNavigate } from 'react-router-dom';
 function Header() {
   const {
     container,
@@ -28,7 +29,7 @@ function Header() {
   const [fixed, setfixed] = useState(false);
   const { isOpen, setIsOpen, type, setType, listCart } =
     useContext(SideBarContext);
-
+  const navigate = useNavigate();
   const handleOpenSideBar = (typeSideBar) => {
     setIsOpen(true);
     setType(typeSideBar);
@@ -59,7 +60,7 @@ function Header() {
             })}
           </div>
         </div>
-        <div>
+        <div onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
           <img src={Logo} alt='Logo' width={153} height={53} />
         </div>
         <div className={boxContainer}>

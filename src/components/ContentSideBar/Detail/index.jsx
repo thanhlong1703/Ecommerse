@@ -13,6 +13,7 @@ import { FaXTwitter } from 'react-icons/fa6';
 import { FaFacebookF } from 'react-icons/fa';
 import { addProductToCart } from '@/apis/cartService';
 import { ToastContext } from '@/contexts/ToastProvider';
+import { handleAddProductToCart } from '@/utils/helper';
 
 const showOptions = [
   { label: '1', value: '1' },
@@ -51,38 +52,17 @@ function Detail() {
     setSizeChose(size);
   };
   const handleAddToCart = () => {
-    if (!userId) {
-      setIsOpen(true);
-      setType('login');
-      toast.warning('Please login to add product to cart');
-
-      return;
-    }
-    if (!sizeChose) {
-      toast.warning('Please chose size');
-
-      return;
-    }
-    const data = {
+    handleAddProductToCart(
       userId,
-      productId: detail._id,
-      quantity: +quantity,
-      size: sizeChose
-    };
-    setIsLoading(true);
-    setIsOpen(false);
-    addProductToCart(data)
-      .then((res) => {
-        toast.success(res.data.msg);
-        setIsOpen(true);
-        setType('cart');
-        setIsLoading(false);
-        handleGetListCart(userId, 'cart');
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        toast.error(res.data.msg);
-      });
+      setIsOpen,
+      setType,
+      toast,
+      sizeChose,
+      detail._id,
+      quantity,
+      setIsLoading,
+      handleGetListCart
+    );
   };
 
   return (

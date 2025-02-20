@@ -32,3 +32,11 @@
   opacity: 1;
   transform: scale(1);
 }
+.disable {
+  cursor: not-allowed;
+}
+.disable::after {
+  height: 3px;
+  margin-top: 6px;
+  background-color: transparent;
+}

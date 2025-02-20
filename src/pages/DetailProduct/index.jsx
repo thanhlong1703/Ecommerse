@@ -16,6 +16,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import classNames from 'classnames';
 import LoadingCommon from '@components/LoadingCommon';
 import { ToastContext } from '@/contexts/ToastProvider';
+import { handleAddProductToCart } from '@/utils/helper';
+import { SideBarContext } from '@/contexts/SideBarProvider';
 
 const logoSummary = [
   {
@@ -55,29 +57,6 @@ const dataAccordionMenu = [
     content: <ReviewProduct />
   }
 ];
-const tempDataSlider = [
-  {
-    image:
-      'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-15.2-min.jpg',
-    name: 'Test Product 1',
-    price: '1000',
-    size: [{ name: 'L' }, { name: 'S' }]
-  },
-  {
-    image:
-      'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-15.2-min.jpg',
-    name: 'Test Product 1',
-    price: '1000',
-    size: [{ name: 'L' }, { name: 'S' }]
-  },
-  {
-    image:
-      'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-15.2-min.jpg',
-    name: 'Test Product 1',
-    price: '1000',
-    size: [{ name: 'L' }, { name: 'S' }]
-  }
-];
 
 function DetailProduct() {
   const {
@@ -113,11 +92,14 @@ function DetailProduct() {
     activeDisabledBtn,
     emptyData
   } = styles;
+  const { userId, setType, setIsOpen, handleGetListCart } =
+    useContext(SideBarContext);
   const { toast } = useContext(ToastContext);
   const [countQuantity, setCountQuantity] = useState(1);
   const [menuSelected, setMenuSelected] = useState(1);
   const [sizeSelected, setSizeSelected] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingAdd, setIsLoadingAdd] = useState(false);
   const [data, setData] = useState();
   const [relatedData, setRelatedData] = useState([]);
   const param = useParams();
@@ -169,6 +151,20 @@ function DetailProduct() {
     setSizeSelected('');
   };
 
+  const handleAddToCart = () => {
+    handleAddProductToCart(
+      userId,
+      setIsOpen,
+      setType,
+      toast,
+      sizeSelected,
+      param.id,
+      countQuantity,
+      setIsLoadingAdd,
+      handleGetListCart
+    );
+  };
+
   const handleRenderZoomImage = (src) => {
     return (
       <ReactImageMagnifier
@@ -201,9 +197,22 @@ function DetailProduct() {
       <div className={container}>
         <MainLayout>
           <div className={navigateSection}>
-            <div>Home {'>'} Men</div>
-            <div className='' style={{ cursor: 'pointer' }}>
-              {'<'} Return to previous page{' '}
+            <div style={{ display: 'flex', gap: 5 }}>
+              <div
+                style={{ cursor: 'pointer' }}
+                onClick={() => {
+                  navigate('/');
+                }}
+              >
+                Home
+              </div>
+              <div> &gt; </div>
+              <div style={{ cursor: 'pointer' }} onClick={handleReturnToShop}>
+                Men
+              </div>
+            </div>
+            <div style={{ cursor: 'pointer' }} onClick={() => navigate(-1)}>
+              &lt; Return to previous page
             </div>
           </div>
           {isLoading ? (
@@ -274,7 +283,10 @@ function DetailProduct() {
                       </div>
                       <div className={boxBtn}>
                         <Button
-                          content={'Add to cart'}
+                          onClick={handleAddToCart}
+                          content={
+                            isLoadingAdd ? <LoadingCommon /> : 'Add to cart'
+                          }
                           customClassname={!sizeSelected && activeDisabledBtn}
                         />
                       </div>

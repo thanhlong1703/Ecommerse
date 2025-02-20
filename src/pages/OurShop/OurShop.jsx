@@ -22,8 +22,17 @@ function OurShop() {
       <MainLayout>
         <div className={container}>
           <div className={fncBox}>
-            <div>
-              Home &gt; <span className={special}>Shop</span>
+            <div style={{ display: 'flex', gap: 5 }}>
+              <div
+                style={{ cursor: 'pointer' }}
+                onClick={() => {
+                  navigate('/');
+                }}
+              >
+                Home
+              </div>
+              <div> &gt; </div>
+              <div>Shop</div>
             </div>
             <div className={btnBack} onClick={handleBackPre}>
               &lt; Return to previous page
