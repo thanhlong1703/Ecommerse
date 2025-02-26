@@ -61,11 +61,11 @@ function Payment() {
         <div className={line} />
         <div className={lineSubTotal}>
           <div>Subtotal</div>
-          <div>${subTotal}</div>
+          <div>${subTotal.toFixed(2)}</div>
         </div>
         <div className={lineTotal}>
           <div>TOTAL</div>
-          <div className={totalValue}>${subTotal}</div>
+          <div className={totalValue}>${subTotal.toFixed(2)}</div>
         </div>
         <div className={boxButton}>
           <Button content={'Proceed to checkout'} />

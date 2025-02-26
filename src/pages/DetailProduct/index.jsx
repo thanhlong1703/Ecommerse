@@ -18,6 +18,7 @@ import LoadingCommon from '@components/LoadingCommon';
 import { ToastContext } from '@/contexts/ToastProvider';
 import { handleAddProductToCart } from '@/utils/helper';
 import { SideBarContext } from '@/contexts/SideBarProvider';
+import { addProductToCart } from '@/apis/cartService';
 
 const logoSummary = [
   {
@@ -99,6 +100,7 @@ function DetailProduct() {
   const [menuSelected, setMenuSelected] = useState(1);
   const [sizeSelected, setSizeSelected] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingBtnBuyNow, setIsLoadingBtnBuyNow] = useState(false);
   const [isLoadingAdd, setIsLoadingAdd] = useState(false);
   const [data, setData] = useState();
   const [relatedData, setRelatedData] = useState([]);
@@ -109,6 +111,26 @@ function DetailProduct() {
     navigate('/shop');
   };
 
+  const handleBuyNow = () => {
+    const data = {
+      userId,
+      productId: param.id,
+      quantity: +countQuantity,
+      size: sizeSelected
+    };
+    setIsLoadingBtnBuyNow(true);
+    addProductToCart(data)
+      .then((res) => {
+        toast.success('Add product successfully');
+        setIsLoadingBtnBuyNow(false);
+        handleGetListCart(userId, 'cart');
+        navigate('/cart');
+      })
+      .catch((err) => {
+        setIsLoadingBtnBuyNow(false);
+        toast.error(res.data.msg);
+      });
+  };
   const fetchDataDetail = async (id) => {
     setIsLoading(true);
     try {
@@ -298,8 +320,11 @@ function DetailProduct() {
                     </div>
                     <div>
                       <Button
-                        content={'Buy now'}
+                        content={
+                          isLoadingBtnBuyNow ? <LoadingCommon /> : 'Buy now'
+                        }
                         customClassname={!sizeSelected && activeDisabledBtn}
+                        onClick={handleBuyNow}
                       />
                     </div>
                     <div className={boxFncTick}>
